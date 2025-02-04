@@ -4,8 +4,10 @@ import sys
 import os
 from pathlib import Path
 
-sys.path.append(os.getcwd() + "/Applications")
-sys.path.append(os.getcwd() + "/Objects")
+this_file_folder = Path(__file__).parent
+
+sys.path.append(str(this_file_folder) + "/Applications/")
+sys.path.append(str(this_file_folder) + "/Objects/")
 
 from InstanceGenerator import InstanceGen
 from InstanceSolver import SolveInstance
@@ -15,13 +17,12 @@ instance_dict = {'GROUP_TIMES': 'critical_times', 'DP': 'designated_paths', 'REG
 reverse_instance_dict = {'critical_times': 'GROUP_TIMES', 'designated_paths': 'DP', 'hub_and_spoke': 'REGIONAL'}
 
 
-
 def main(instance_type: str, instance_path: Path, statistics_path: Path, time_limit: float, gap_limit: float):
     folder = str('/Instances/' + instance_type + '/')
     family = reverse_instance_dict[instance_type]
     solve_Parameters = {'INSTANCE_FOLDER': folder, 'DP': False, 'REGIONAL': False, 'GROUP_TIMES': False, family: True,
                         'TIME_LIMIT': time_limit, 'OPTIMALITY_GAP': gap_limit}
-    input_folder = os.getcwd() + folder
+    input_folder = this_file_folder + folder
     Instance = SolveInstance(solve_Parameters, input_folder, str(instance_path) + "/", 0, "arc_disc")
     OutputWriter(Instance, statistics_path)
     
