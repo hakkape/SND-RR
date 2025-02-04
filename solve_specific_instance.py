@@ -22,7 +22,7 @@ def main(instance_type: str, instance_path: Path, statistics_path: Path, time_li
     family = reverse_instance_dict[instance_type]
     solve_Parameters = {'INSTANCE_FOLDER': folder, 'DP': False, 'REGIONAL': False, 'GROUP_TIMES': False, family: True,
                         'TIME_LIMIT': time_limit, 'OPTIMALITY_GAP': gap_limit}
-    input_folder = this_file_folder + folder
+    input_folder = str(this_file_folder) + folder
     Instance = SolveInstance(solve_Parameters, input_folder, str(instance_path) + "/", 0, "arc_disc")
     OutputWriter(Instance, statistics_path)
     
