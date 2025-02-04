@@ -4,7 +4,7 @@ import os
 
 
 class OutputWriter:
-    def __init__(self, Instance):
+    def __init__(self, Instance, write_path=None):
         self.Instance = Instance
         self.field_names = ['Test_id', 'arc_disc',
                             'DDD time', 'solved', 'gap',
@@ -17,12 +17,20 @@ class OutputWriter:
                             'num_variables', 'num_constraints',
                             'DDD_value', 'iteration_LBs', 'iteration_UBs',
                             'iteration_V_S', 'final_V_S_size']
+        self.write_path = write_path
         self.write_data_summary()
 
     def write_data_summary(self):
         write_header = False
-        for location in [self.Instance.input_folder, self.Instance.instance_folder]:
-            output_file = file_path.join(location, 'testing_summary.csv')
+        outfiles = []
+        if self.write_path is None:
+            for location in [self.Instance.input_folder, self.Instance.instance_folder]:
+                output_file = file_path.join(location, 'testing_summary.csv')
+                outfiles.append(output_file)
+        else:
+            outfiles.append(self.write_path)
+
+        for output_file in outfiles:
             if not os.path.isfile(output_file):
                 write_header = True
             with open(output_file, "a") as f_out:
@@ -32,6 +40,7 @@ class OutputWriter:
                     csw.writeheader()
                 line = self.__get_dict(self.Instance)
                 csw.writerow(line)
+                
 
     def __get_dict(self, Instance):
         line = {'Test_id': Instance.id,
