@@ -15,7 +15,7 @@ class SNDSolver:
 
         self.model = gp.Model('SND_IP')
         self.model.Params.OutputFlag = 0
-        self.model.Params.MIPgap = 0.01
+        # self.model.Params.MIPgap = 0.01 // default gurobi gap is 0.00001 as far as I know
         self.model.Params.TimeLimit = time_limit
         self.constraints = []
         self.vars = []
