@@ -23,6 +23,9 @@ def main(instance_type: str, instance_path: Path, statistics_path: Path, time_li
     solve_Parameters = {'INSTANCE_FOLDER': folder, 'DP': False, 'REGIONAL': False, 'GROUP_TIMES': False, family: True,
                         'TIME_LIMIT': time_limit, 'OPTIMALITY_GAP': gap_limit}
     input_folder = str(this_file_folder) + folder
+    
+    # Note: it seems to me that only the arguments solve_Parameters, instance_folder (fully specifies the instance) and scenario (specifies if node or arc disc is used) are necessary, the input folder and SND_instance have no influence on anything
+    # the input folder seems to be used to write statistics only, but i overrode this with the statistics path
     Instance = SolveInstance(solve_Parameters, input_folder, str(instance_path) + "/", 0, "arc_disc")
     OutputWriter(Instance, statistics_path)
     
